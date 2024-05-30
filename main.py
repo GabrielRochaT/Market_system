@@ -4,8 +4,6 @@ from config.settings import *
 def main():
 
     cursor, conn = connect_db(USER, PASSWORD, HOST, 'mercado_db')
-    print(cursor)
-    print(conn)
     cntn = True
     while (cntn):
         print("+===========BEM VINDO AO SISTEMA DE GERENCIAMENTO===========+")

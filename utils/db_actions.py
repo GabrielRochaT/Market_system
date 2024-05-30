@@ -94,5 +94,45 @@ def update_data(cursor, conn):
         print(f"Erro ao atualizar dados {e}")
 
 def filter_data(cursor, conn):
-    query_select = 'SELECT * FROM note_grill'
-    ...
+    print("+===========OPÇÕES DE FILTRO===========+")
+    print("| 1 - Filtrar por Nome                 |")
+    print("| 2 - Filtrar por Valor                |")
+    print("| 3 - Filtrar por Quantidade           |")
+    print("| 4 - Filtrar por Desconto             |")
+    print("| 5 - Mostrar todos os produtos        |")
+    print("+======================================+")
+    op = int(input(">>> "))
+
+    if op == 1:
+        filtro = input("Digite o nome do produto para filtrar: ")
+        query_select = "SELECT * FROM produto WHERE nome_produto LIKE %s"
+        values = (f"%{filtro}%",)
+    elif op == 2:
+        filtro = float(input("Digite o valor máximo do produto para filtrar: "))
+        query_select = "SELECT * FROM produto WHERE valor <= %s"
+        values = (filtro,)
+    elif op == 3:
+        filtro = int(input("Digite a quantidade mínima do produto para filtrar: "))
+        query_select = "SELECT * FROM produto WHERE quantidade >= %s"
+        values = (filtro,)
+    elif op == 4:
+        filtro = float(input("Digite o valor mínimo do desconto para filtrar: "))
+        query_select = "SELECT * FROM produto WHERE desconto >= %s"
+        values = (filtro,)
+    elif op == 5:
+        query_select = "SELECT * FROM produto"
+        values = ()
+    else:
+        print("Selecione uma opção válida")
+        return
+
+    try:
+        cursor.execute(query_select, values)
+        results = cursor.fetchall()
+        if results:
+            for row in results:
+                print(row)
+        else:
+            print("Nenhum dado encontrado com os critérios fornecidos")
+    except Error as e:
+        print(f"Erro ao filtrar dados {e}")
